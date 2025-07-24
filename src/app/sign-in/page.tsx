@@ -24,7 +24,7 @@ const SignIn = () => {
         <Formik
           initialValues={{ email: "", password: "" }}
           onSubmit={async (values) => {
-            await login({ login: values.email, password: values.password });
+            await login({ email: values.email, password: values.password });
           }}
         >
           <Form className="space-y-4">

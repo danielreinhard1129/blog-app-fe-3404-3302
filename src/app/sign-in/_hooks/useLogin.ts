@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface Payload {
-  login: string;
+  email: string;
   password: string;
 }
 
@@ -18,7 +18,7 @@ const useLogin = () => {
   return useMutation({
     mutationFn: async (payload: Payload) => {
       const { data } = await axiosInstance.post<User>(
-        "/api/users/login",
+        "/auth/login",
         payload
       );
       return data;
@@ -28,7 +28,7 @@ const useLogin = () => {
       toast.success("sign in success");
       router.replace("/");
     },
-    onError: (error: AxiosError<{ message: string; code: number }>) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       toast.error(error.response?.data.message ?? "Something went wrong!");
     },
   });
