@@ -15,14 +15,14 @@ const useRegister = () => {
 
   return useMutation({
     mutationFn: async (payload: Payload) => {
-      const { data } = await axiosInstance.post("/api/users/register", payload);
+      const { data } = await axiosInstance.post("/auth/register", payload);
       return data;
     },
     onSuccess: () => {
       toast.success("sign up success");
       router.push("/sign-in");
     },
-    onError: (error: AxiosError<{ message: string; code: number }>) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       toast.error(error.response?.data.message ?? "Something went wrong!");
     },
   });
