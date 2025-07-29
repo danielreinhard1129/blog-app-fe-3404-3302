@@ -1,10 +1,10 @@
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/sonner";
+import NextAuthProvider from "@/providers/NextAuthProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { lato } from "@/lib/fonts";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,8 +32,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReactQueryProvider>
-          <Navbar />
-          {children}
+          <NextAuthProvider>
+            <Navbar />
+            {children}
+          </NextAuthProvider>
         </ReactQueryProvider>
         <Toaster richColors position="top-right" />
       </body>

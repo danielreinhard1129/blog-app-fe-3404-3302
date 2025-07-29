@@ -1,10 +1,10 @@
 import { axiosInstance } from "@/lib/axios";
-import { useAuthStore } from "@/stores/auth";
 import { User } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { signIn } from "next-auth/react";
 
 interface Payload {
   email: string;
@@ -13,18 +13,14 @@ interface Payload {
 
 const useLogin = () => {
   const router = useRouter();
-  const { onAuthSuccess } = useAuthStore();
 
   return useMutation({
     mutationFn: async (payload: Payload) => {
-      const { data } = await axiosInstance.post<User>(
-        "/auth/login",
-        payload
-      );
+      const { data } = await axiosInstance.post<User>("/auth/login", payload);
       return data;
     },
-    onSuccess: (data) => {
-      onAuthSuccess({ user: data });
+    onSuccess: async (data) => {
+      await signIn("credentials", { ...data, redirect: false });
       toast.success("sign in success");
       router.replace("/");
     },
