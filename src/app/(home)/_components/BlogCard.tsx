@@ -10,7 +10,7 @@ interface BlogCardProps {
 
 const BlogCard: FC<BlogCardProps> = ({ blog }) => {
   return (
-    <Link href={`/blogs/${blog.objectId}`}>
+    <Link href={`/blogs/${blog.slug}`}>
       <Card>
         <CardHeader>
           <div className="relative w-full h-[200px] rounded-lg overflow-hidden">
