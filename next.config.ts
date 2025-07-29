@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "spotonplants-us.backendless.app",
+        hostname: "plus.unsplash.com",
       },
     ],
   },
