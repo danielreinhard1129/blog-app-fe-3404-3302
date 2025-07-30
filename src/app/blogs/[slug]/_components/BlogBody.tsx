@@ -3,11 +3,11 @@ import { getBlog } from "../_api/get-blog";
 import Markdown from "@/components/Markdown";
 
 interface BlogBodyProps {
-  objectId: string;
+  slug: string;
 }
 
-const BlogBody: FC<BlogBodyProps> = async ({ objectId }) => {
-  const blog = await getBlog(objectId);
+const BlogBody: FC<BlogBodyProps> = async ({ slug }) => {
+  const blog = await getBlog(slug);
 
   return (
     <section className="mt-8">
