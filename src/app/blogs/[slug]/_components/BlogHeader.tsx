@@ -5,11 +5,11 @@ import { format } from "date-fns";
 import Image from "next/image";
 
 interface BlogHeaderProps {
-  objectId: string;
+  slug: string;
 }
 
-const BlogHeader: FC<BlogHeaderProps> = async ({ objectId }) => {
-  const blog = await getBlog(objectId);
+const BlogHeader: FC<BlogHeaderProps> = async ({ slug }) => {
+  const blog = await getBlog(slug);
 
   return (
     <section className="space-y-2">
@@ -19,7 +19,7 @@ const BlogHeader: FC<BlogHeaderProps> = async ({ objectId }) => {
       <h1 className="text-4xl font-bold">{blog.title}</h1>
 
       <p className="font-extralight">
-        {format(new Date(blog.created), "dd MMM yyyy")}
+        {format(new Date(blog.createdAt), "dd MMM yyyy")}
       </p>
 
       <div className="relative w-full h-[360px]">
