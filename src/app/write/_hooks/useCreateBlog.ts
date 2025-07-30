@@ -1,6 +1,8 @@
 import { axiosInstance } from "@/lib/axios";
+import { useAuthStore } from "@/stores/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 interface Payload {
@@ -14,28 +16,20 @@ interface Payload {
 const useCreateBlog = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const session = useSession();
 
   return useMutation({
     mutationFn: async (payload: Payload) => {
       const form = new FormData();
-      form.set("file", payload.thumbnail!);
 
-      const randomId = Date.now() + Math.floor(Math.random() * 1000);
+      form.append("thumbnail", payload.thumbnail!);
+      form.append("title", payload.title);
+      form.append("category", payload.category);
+      form.append("description", payload.description);
+      form.append("content", payload.content);
 
-      const resultThumbnail = await axiosInstance.post<{
-        fileURL: string;
-        filePath: string;
-      }>(
-        `/api/files/blog-images/${randomId}`, // blog-images -> path folder
-        form
-      );
-
-      await axiosInstance.post("/api/data/Blogs", {
-        title: payload.title,
-        category: payload.category,
-        description: payload.description,
-        content: payload.content,
-        thumbnail: resultThumbnail.data.fileURL,
+      await axiosInstance.post("/blogs", form, {
+        headers: { Authorization: `Bearer ${session.data?.user.accessToken}` },
       });
     },
     onSuccess: async () => {
