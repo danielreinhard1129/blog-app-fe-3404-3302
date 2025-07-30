@@ -13,26 +13,25 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Loader } from "lucide-react";
-import useLogin from "./_hooks/useLogin";
-import Link from "next/link";
+import useForgotPassword from "./_hooks/useForgotPassword";
 
-const SignIn = () => {
-  const { mutateAsync: login, isPending } = useLogin();
+const ForgotPassword = () => {
+  const { mutateAsync: forgotPassword, isPending } = useForgotPassword();
 
   return (
     <main className="container mx-auto">
       <Card className="w-full max-w-sm mx-auto mt-24">
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={{ email: "" }}
           onSubmit={async (values) => {
-            await login({ email: values.email, password: values.password });
+            await forgotPassword({ email: values.email });
           }}
         >
           <Form className="space-y-4">
             <CardHeader>
-              <CardTitle>Login to your account</CardTitle>
+              <CardTitle>Forgot Password</CardTitle>
               <CardDescription>
-                Enter your email below to login to your account
+                Enter your email below to reset your account
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -52,30 +51,11 @@ const SignIn = () => {
                     className="text-sm text-red-500"
                   />
                 </div>
-
-                {/* PASSWORD */}
-                <div className="grid gap-2">
-                  <div className="flex justify-between items-center">
-                    <Label htmlFor="password">Password</Label>
-                    <Link href="/forgot-password">Forgot Password?</Link>
-                  </div>
-                  <Field
-                    name="password"
-                    as={Input}
-                    type="password"
-                    placeholder="Your password"
-                  />
-                  <ErrorMessage
-                    name="password"
-                    component="p"
-                    className="text-sm text-red-500"
-                  />
-                </div>
               </div>
             </CardContent>
             <CardFooter className="flex-col gap-2">
               <Button type="submit" className="w-full" disabled={isPending}>
-                {isPending ? <Loader className="animate-spin" /> : "Login"}
+                {isPending ? <Loader className="animate-spin" /> : "Submit"}
               </Button>
             </CardFooter>
           </Form>
@@ -85,4 +65,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default ForgotPassword;
